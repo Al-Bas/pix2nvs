@@ -3,7 +3,6 @@
 struct stat info ;
 
 void Helper::openFolder(const char *fn, bool clear){
-	// Allocate CMD 
         char* cmd ; cmd = (char *)calloc(MAX_STRING_SIZE, sizeof(char)) ;
 	fprintf(stderr, "\nCreating folder %s ..", fn) ;
 	// Create events directory
