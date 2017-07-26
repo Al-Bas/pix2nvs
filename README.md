@@ -11,7 +11,6 @@ If you use this tool, please cite the paper above. This tool is provided under t
 All dependencies are located in the source folder. To build from source, change your working directory to this repository's home folder and run:
 
 ```bash
-cd dependencies
 g++ -o pix2nvs src/*.cpp  # to build from source  
 ./pix2nvs # to run using default parameters
 ```
