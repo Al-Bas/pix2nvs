@@ -5,7 +5,7 @@ We provide our implementation of **PIX2NVS**, a tool for converting pixel frames
 A full description of the operation of this tool can be found in our paper: 
 > @inproceedings{auth,  arxiv link}
 
-If you use this tool, please cite the paper above. This tool is provided under the [MIT license].
+If you use the code in this repository, please cite the paper above. This tool is provided under the [MIT license].
 
 ## Building from source
 All dependencies are located in the source folder. To build from source, change your working directory to this repository's home folder and run:
