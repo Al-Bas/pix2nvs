@@ -25,37 +25,37 @@ int main(int argc, char *argv[])
 
 	/* Create a log file */
 	char *logfileName = (char *)calloc(MAX_STRING_SIZE, sizeof(char)) ;
-	sprintf(logfileName, "nvs_log.txt") ; FILE *logfile = Helper::openFile(logfileName) ;
+	sprintf(logfileName, LOG_NAME) ; FILE *logfile = Helper::openFile(logfileName) ;
 	
 	// Check whether input folder exists --
 	// Helper::openFolder("input", false) ; 	
 
 	/* Load input video details */
-	media_file = dir_media_parse(media_file, NULL);
+
+	media_file = dir_media_parse(media_file, NULL, INPUT_FOLDER, false) ;
 	fprintf(logfile, "\nFound %d files in the ./input directory \n", tot_input);
 
 	/* Generate events for each video */
 	for (int ivid = 0; ivid < tot_input; ivid++)
 	{
 		clock_t begin_video = clock();
-		printf("\n\n processing video: %s ... ", media_file[ivid].filename);
-		fprintf(logfile, "\n processing video: %s ... ", media_file[ivid].filename);
+		printf("Processing video: %s ..\n", media_file[ivid].filename);
 
 		struct MEDIA_FILE *pic_file;
 		pic_file = (struct MEDIA_FILE *)calloc(MAX_FILES, sizeof(struct MEDIA_FILE));
 
 
-		/* Check whether ffprobe exists & run */
+		/* Check whether ffprobe exists and run */
 		if (access("ffprobe", F_OK) == 0)
 		{
-			sprintf(cmd, "./ffprobe -show_streams \"%s%s\" > ImPer.txt 2> err", 
-					INPUT_FOLDER, media_file[ivid].filename) ;
+			sprintf(cmd, "./ffprobe -show_streams \"%s%s\" > %s 2> err", 
+					INPUT_FOLDER, media_file[ivid].filename, FFPROBE_OUTPUT) ;
 			system(cmd);
 		}
 		else
 		{
-			printf("\n /* ffprobe binary does not exist.. refer to"
-				       " the README file") ; exit(-1) ;
+			printf("ffprobe binary does not exist.. refer to"
+				       " the README file\n") ; exit(-1) ;
 		}
 
 		/* Get video parameters */
@@ -65,53 +65,32 @@ int main(int argc, char *argv[])
 
 
 		/* Check temporary frames folder*/
-		Helper::openFolder(TMP_FOLDER, false) ;
-		fprintf(stdout, "\nExtracting frame from %s at %s\n", media_file[ivid].filename, 
-			video_per.FrameRate) ;
+		Helper::openFolder(FRAMES_FOLDER, false) ;
 
 		sprintf(cmd, "./ffmpeg -i \"%s%s\" -r %s %s/frame%%d.bmp > null 2> err", 
 				INPUT_FOLDER, media_file[ivid].filename, video_per.FrameRate, 
-				TMP_FOLDER) ; system(cmd);
-
-		// Log time
-		clock_t end_ffmpeg = clock();
-		double time_spent = (end_ffmpeg - begin_video) / CLOCKS_PER_SEC;
-		fprintf(logfile, "Finished FFMPEG for vid %d in %f seconds\n", ivid, time_spent);
-
+				FRAMES_FOLDER) ; system(cmd);
 
 		/* Count the number of frames */
-		pic_file = dir_pic_parse(pic_file, NULL);
-		printf("\n Found %d pictures in the ./tmp directory", tot_pic_input);
-		fprintf(logfile, "\n Found %d pictures in the ./tmp directory", tot_pic_input);
+		pic_file = dir_media_parse(pic_file, NULL, FRAMES_FOLDER, true) ;
 
 		/* Check whether video is corrupted or empty */
 		if (tot_pic_input == 0)
 		{
-			printf("\n %s is corrupted or empty, this video will be skipped.", 
-				media_file[ivid].filename);
-			fprintf(logfile, "\n %s is corrupted or empty, this video will be skipped.\n ", 
+			printf("%s is corrupted or empty, this video will be skipped.\n", 
 				media_file[ivid].filename);
 		}
 		else
 		{
 
-			/* Event generation  */
-
+			/* Generate Events */
 			status = generate_events(pic_file, video_per.TimeGap, media_file, 
 					ivid, video_per.ImageWidth, video_per.ImageHeight);
 
-			fprintf(logfile, "\n Generating events successfully for %s .... \n\n", 
-				media_file[ivid].filename);
-
 		}
 
-		// Log time
-		clock_t end_generate_events = clock();
-		time_spent = (end_generate_events - end_ffmpeg) / CLOCKS_PER_SEC;
-		fprintf(logfile, "Finished GEN_EVENT for vid %d in %f seconds\n", ivid, time_spent);
-
-		// Clear temporary folder
-		Helper::openFolder(TMP_FOLDER, true) ;
+		// Clear frames folder
+		Helper::openFolder(FRAMES_FOLDER, true) ;
 
 		// Free memory
 		for (int i = 0; i < MAX_FILES; i++)
@@ -119,8 +98,6 @@ int main(int argc, char *argv[])
 			free(pic_file[i].filename);
 		}
 		free(pic_file) ; free(video_per.FrameRate) ;
-
-
 
 	}
 
@@ -131,10 +108,8 @@ int main(int argc, char *argv[])
 		free(media_file[i].filename);
 	}
 	free(media_file);
-
-
-	free(cmd);
-
+	
+	free(cmd) ; printf("\n") ;
 
 }
 

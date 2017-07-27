@@ -1,8 +1,4 @@
 #include "all_defines.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include "bmp.h"
 
 using namespace std;
 

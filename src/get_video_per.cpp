@@ -3,12 +3,7 @@
 struct VIDEO_PER get_video_per(struct VIDEO_PER video_per)
 {
 
-	FILE *file = fopen("ImPer.txt", "rb");
-	if (file == NULL)
-	{
-		printf("\n open ImPer.txt failed");
-		exit(-1);
-	}
+	FILE *file = fopen(FFPROBE_OUTPUT, "rb");
 
 	char *linein;
 	linein = (char *)calloc(MAX_STRING_SIZE, sizeof(char));
@@ -30,8 +25,7 @@ struct VIDEO_PER get_video_per(struct VIDEO_PER video_per)
 
 	while (1)
 	{
-		if (fgets(linein, MAX_STRING_SIZE, file) == NULL)
-			break;
+		if (fgets(linein, MAX_STRING_SIZE, file) == NULL) break ;
 		else
 		{
 			if (strstr(linein, "width=") != NULL)
@@ -62,7 +56,7 @@ struct VIDEO_PER get_video_per(struct VIDEO_PER video_per)
 	{
 
 		int err2 = fclose(file);
-		printf("\n\n close err: %d ... ", err2);
+		// printf("\n\n close err: %d ... ", err2);
 
 		free(linein);
 		free(frameratein1);
@@ -100,7 +94,7 @@ struct VIDEO_PER get_video_per(struct VIDEO_PER video_per)
 
 
 		int err2 = fclose(file);
-		printf("\n\n close err: %d ... ", err2);
+		// printf("\n\n close err: %d ... ", err2);
 
 		free(linein);
 		free(frameratein1);

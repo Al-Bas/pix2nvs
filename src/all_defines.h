@@ -11,6 +11,9 @@
 #include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <vector>
+#include "media.h"
+#include "bmp.h"
 
 // Windows OS
 
@@ -22,8 +25,11 @@
 
 #define access                  _access
 #define INPUT_FOLDER      	".\\input\\"
-#define TMP_FOLDER		".\\Frames\\"
-#define EVENT_FOLDER            ".\\Events\\"
+#define TMP_FOLDER		".\\frames\\"
+#define FRAMES_FOLDER		".\\frames\\"
+#define EVENT_FOLDER            ".\\events\\"
+#define FFPROBE_OUTPUT		"sd"
+#define LOG_NAME		"log"
 #define FFPROBE                 "ffprobe_win"
 #define FFMPEG                  "ffmpeg_win"
 #define F_OK               	0
@@ -36,15 +42,19 @@
 #include "dirent_Linux.h"
 
 #define INPUT_FOLDER		"./input/"
-#define TMP_FOLDER		"./Frames/"
-#define EVENT_FOLDER            "./Events/"
+#define TMP_FOLDER		"./frames/"
+#define FRAMES_FOLDER		"./frames/"
+#define EVENT_FOLDER            "./events/"
+#define FFPROBE_OUTPUT		"./sd"
+#define LOG_NAME		"./log"
 #define FFPROBE                 "ffprobe"
 #define FFMPEG                  "ffmpeg"
 
 #endif
 
-#define TOT_MEDIA_TYPES	    5
-#define TOT_PIC_TYPES       1
+#define EXT_SIZE	    5
+#define TOT_VIDEO_TYPES	    5
+#define TOT_FRAME_TYPES     1
 #define MAX_STRING_SIZE	    5000
 #define MAX_FILES	    5000
 #define MAX_EVENT_LENGTH    76800
@@ -80,51 +90,25 @@
 
 #endif
 
-const char pic_type[TOT_PIC_TYPES][5] = { ".bmp" };
-const char media_type[TOT_MEDIA_TYPES][5] = { ".mp4", ".mkv", ".m4v", ".avi", ".flv" };
+const char FRAME_TYPES[TOT_FRAME_TYPES][EXT_SIZE] = { ".bmp" } ;
+const char VIDEO_TYPES[TOT_VIDEO_TYPES][EXT_SIZE] = { ".mp4", ".mkv", ".m4v", ".avi", ".flv" } ;
 
-typedef unsigned char BYTE ;
+struct VIDEO_PER get_video_per(struct VIDEO_PER video_per);
+struct MEDIA_FILE *dir_media_parse(struct MEDIA_FILE *, char *, const char *, bool) ;
 
-struct MEDIA_FILE
-{
-	char *filename;
-	int extension;
-} ;
-
-
-struct VIDEO_PER {
-	char *FrameRate;
-	int ImageHeight;
-	int ImageWidth;
-	double TimeGap;
-} ;
-
-
-struct MEDIA_FILE *dir_media_parse(struct MEDIA_FILE *, char *) ;
-struct MEDIA_FILE *dir_pic_parse(struct MEDIA_FILE *, char *) ;
-
-
-
+float **initialize_frame(int ImageWidth, int ImageHeight, float init_value) ;
 float **readframe(char *, float **, int ImageWidth, int ImageHeight) ;
 float **writeframe(char *filename, float **frame, int ImageWidth, int ImageHeight) ;
-float **initialize_frame(int ImageWidth, int ImageHeight, float init_value) ;
-void log_frame(float** frame, int ImageWidth, int ImageHeight) ;
-
-
-
-float **compute_contrast(float **frame, int ImageWidth, int ImageHeight);
-struct VIDEO_PER get_video_per(struct VIDEO_PER video_per);
-int check_arguments(float d, int n_max, float fixed_thres, float adapt_thres_coef_shift, int  blocksize);
-int print_event(FILE *event, float diff_frame, float threshold, int n_max, int i, int j, int id, double TimeGap, int ImageHeight, int p);
+void  log_frame(float** frame, int ImageWidth, int ImageHeight) ;
 
 int generate_events(struct MEDIA_FILE *pic_file, double TimeGap, MEDIA_FILE *media_file, int ivid, int ImageWidth, int ImageHeight);
+int print_event(FILE *event, float diff_frame, float threshold, int n_max, int i, int j, int id, double TimeGap, int ImageHeight, int p);
 
+int check_arguments(float d, int n_max, float fixed_thres, float adapt_thres_coef_shift, int  blocksize);
 class Helper {
 public:
-static FILE *openFile(char *f) ;
-static void openFolder(const char *f, bool clear) ;
+static FILE *openFile(char *) ;
+static void openFolder(const char *, bool) ;
 static void parse_input(int argc, char *argv[], float *d, float *fixed_thres,   
                 float *adapt_thres_coef_shift, int *n_max, int *block_size) ;
-
 } ;
-

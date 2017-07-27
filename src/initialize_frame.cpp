@@ -6,7 +6,6 @@ using namespace std;
 
 float** initialize_frame(int ImageWidth, int ImageHeight, float init_value)
 {       
-        // Reference Frame
         float **frame ;
         frame = (float **)calloc(ImageWidth, sizeof(float *));
         for (int i = 0; i < ImageWidth; i++)
