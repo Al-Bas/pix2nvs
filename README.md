@@ -19,11 +19,11 @@ g++ -o pix2nvs src/*.cpp  # to build from source
 
 Option | Description
 --- | ---
---reference or -r | set to (1, 2, or 3) to specify one of the reference frame update methods.
---mexevents or -m | will specify the maximum number of events generated between two frames
---blocksize or -b | will set the block size for local inhibition
---adaptive  or -a | sets the co-efficient shift for adaptive thresholding, set to (0) to disable
---help      or -h | show usage syntax and parameter description
+-r or --reference | set to (1, 2, or 3) to specify one of the reference frame update methods.
+-m or --mexevents | will specify the maximum number of events generated between two frames
+-b or --blocksize | will set the block size for local inhibition
+-a or --adaptive  | sets the co-efficient shift for adaptive thresholding, set to (0) to disable
+-h or --help      | show usage syntax and parameter description
 
 The reference frame update option can be set to any of the following:
 
