@@ -39,7 +39,7 @@ r | Reference Frame Update Method
 To extract events from videos located in the input folder:
 
 ```bash  
-./pix2nvs -m 3 -a 0.05 -b 0 # to run using default parameters
+./pix2nvs -r 3 -a 0 -b 4
 ```
 All outputs will be located in the folder "Events". The output from PIX2VNS using these parameters is visualized in the following figure:
 
