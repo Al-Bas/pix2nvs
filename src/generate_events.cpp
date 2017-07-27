@@ -24,11 +24,6 @@ int generate_events(struct MEDIA_FILE *pic_file, double TimeGap, MEDIA_FILE *med
 	sprintf(filename, "%s%s.txt", EVENT_FOLDER, media_file[ivid].filename) ;
 	FILE *event = Helper::openFile(filename) ;
 
-	// FILE *event = fopen(filename, "wt");
-	// if (event == NULL)
-	// { printf("\nEvent file %s cannot be created.", filename) ; exit(-1) ; }
-
-
 	if (d != 3){
 	   int id_ = 1 ; sprintf(filename, "%sframe%d.bmp", TMP_FOLDER, id_) ;
 	   reference = readframe(filename, reference, ImageWidth, ImageHeight) ; 
@@ -48,8 +43,7 @@ int generate_events(struct MEDIA_FILE *pic_file, double TimeGap, MEDIA_FILE *med
 		
 		log_frame(input, ImageWidth, ImageHeight) ;
 
-
-		// Note: Local inhibition
+		// Local inhibition
 		for (int i = 0; i < ImageWidth; i = i + blocksize)
 		{
 			for (int j = 0; j < ImageHeight; j = j + blocksize)
@@ -122,7 +116,7 @@ int generate_events(struct MEDIA_FILE *pic_file, double TimeGap, MEDIA_FILE *med
 				}
 
 
-				//Note: Update reference (Copy Input)
+				// Update reference (Copy Input)
 				if (d == 1)
 				{
 					for (int m = 0; m < blocksize; m++)
