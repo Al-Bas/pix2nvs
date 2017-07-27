@@ -7,7 +7,7 @@ A full description of the operation of this tool can be found in our paper:
 
 If you use this tool, please cite the paper above. This tool is provided under the [MIT license].
 
-# Building from source
+## Building from source
 All dependencies are located in the source folder. To build from source, change your working directory to this repository's home folder and run:
 
 ```bash
@@ -15,7 +15,7 @@ g++ -o pix2nvs src/*.cpp  # to build from source
 ./pix2nvs # to run using default parameters
 ```
 
-##### Command-line options:
+## Command-line options:
 
 Option | Description
 --- | ---
@@ -34,7 +34,7 @@ r | Reference Frame Update Method
 3 | update reference frame using only generated events, without history decay 
 
 
-# Example Usage
+## Example Usage
 
 To extract events from videos located in the input folder:
 
@@ -48,6 +48,6 @@ Pixel Image | Emulated NVS Events
 <img width="321" alt="screen shot 2017-07-27 at 01 22 17" src="https://user-images.githubusercontent.com/18630131/28649110-5b57efd8-726a-11e7-9296-6eac104a2ebc.png"> | <img width="318" alt="screen shot 2017-07-27 at 01 20 04" src="https://user-images.githubusercontent.com/18630131/28649129-6996180e-726a-11e7-8631-0d8b4cf68653.png">
 
   
-# Contact
+## Contact
 
 For any questions or bug reports, please contact Yin Bi at <yin.bi.16@ucl.ac.uk> or Alhabib Abbas at <alhabib.abbas.13@ucl.ac.uk>.
