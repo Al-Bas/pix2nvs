@@ -22,8 +22,7 @@ Option | Description
 -r or --reference | set to (1, 2, or 3) to specify one of the reference frame update methods.
 -m or --maxevents | will specify the maximum number of events generated between two frames
 -b or --blocksize | will set the block size for local inhibition
--a or --adaptive  | sets the co-efficient shift for adaptive thresholding, set to (0) to disable
--h or --help      | show usage syntax and parameter description
+-a or --adaptive  | will set the co-efficient shift for adaptive thresholding, set to (0) to disable
 
 The reference frame update option can be set to any of the following:
 
