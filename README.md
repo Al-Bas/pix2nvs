@@ -19,19 +19,19 @@ g++ -o pix2nvs src/*.cpp  # to build from source
 
 Option | Description
 --- | ---
---reference or -r | set to (1, 2, or 3) to specify one of the reference frame update methods:
+--reference or -r | set to (1, 2, or 3) to specify one of the reference frame update methods.
 --mexevents or -m | will specify the maximum number of events generated between two frames
 --blocksize or -b | will set the block size for local inhibition
 --adaptive  or -a | sets the co-efficient shift for adaptive thresholding, set to (0) to disable
 --help      or -h | show usage syntax and parameter description
 
-The reference option can be set to any of the following:
+The reference frame update option can be set to any of the following:
 
 r | Reference Frame Update Method
 --- | ---
-1 | copy last input frame 
-2 | update reference frame using only generated events, without history decay 
-3 | update reference frame using only generated events, with history decay
+1 | copy last frame from source
+2 | update reference frame using only generated events, with history decay
+3 | update reference frame using only generated events, without history decay 
 
 
 # Example Usage
@@ -41,11 +41,8 @@ To extract events from videos located in the input folder:
 ```bash  
 ./pix2nvs -m 3 -a 0.05 -b 0 # to run using default parameters
 ```
-This will generate All outputs will be located in the folder "Events".
- 
- - Add visualizing events
-- Change frame extraction to libav
+All outputs will be located in the folder "Events". The output from pix2nvs using these parameters is visualized in the following figure:
   
 # Contact
 
-For any any questions or bug reports, please contact Yin Bi at <yin.bi.16@ucl.ac.uk> or ALhabib Abbas at <alhabib.abbas.13@ucl.ac.uk>.
+For any questions or bug reports, please contact Yin Bi at <yin.bi.16@ucl.ac.uk> or Alhabib Abbas at <alhabib.abbas.13@ucl.ac.uk>.
